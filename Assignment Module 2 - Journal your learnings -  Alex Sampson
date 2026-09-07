@@ -1,0 +1,97 @@
+Version Control & Why Git Matters (Ch. 1)
+Version Control is basically the discipline of keeping track of every change in a project. Git records additions, edits, and deletions and lets you roll back whenever needed. The textbook describes it as a way to avoid the chaos of “final_v2_really_final” files, and that’s exactly how I used to work. Git replaces that mess with structured snapshots and descriptions.
+
+There are three major types of VCS:
+ * Local — everything stored on one machine; risky and outdated.
+ * Centralized — one server; allows teamwork but locks files and creates bottlenecks.
+ * Distributed (Git) — every user has a full copy of the repo and history. This solves the “single point of failure” problem and makes branching, merging, and collaboration smooth.
+
+Git was created because BitKeeper stopped being free. Linus Torvalds built Git to be fast, distributed, and reliable. It’s now the industry standard.
+Key takeaway: Git isn’t just a tool — it’s a safety net. It lets you experiment without fear because every version is preserved.
+
+
+Installing & Setting Up Git (Ch. 2)
+Git installation is straightforward across Windows, Mac, and Linux. The important part is the setup:
+
+Code
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+This identity is attached to every commit. The textbook emphasizes that this setup is global, meaning you only do it once per system.
+Choosing an editor matters only because Git opens it for commit messages. You can use Nano, Vim, VS Code, etc.
+Reflection: I didn’t realize Git needed a default editor. It makes sense now — commit messages are part of the workflow, not an afterthought.
+
+
+
+Repositories, Working Directory, Staging, and Commits (Ch. 3)
+A Git repository is just a folder with a hidden .git directory inside. That .git folder is the database storing all snapshots.
+
+Git’s workflow revolves around three states:
+ * Working Directory — where you edit files
+ * Staging Area — where you mark files to be included in the next snapshot
+ * Commit — the snapshot itself, stored in .git
+
+Commands:
+ * git status — shows what changed
+ * git add — moves files to staging
+ * git commit — saves the snapshot
+
+The textbook stresses that Git tracks snapshots, not diffs. This explains why switching versions is fast — Git simply loads the saved state.
+Reflection: Understanding the three states made Git feel logical instead of mysterious. Staging is like curating what goes into the snapshot, not just blindly saving everything.
+
+
+
+Ignoring Files, Logs, and History (Ch. 4)
+Not everything belongs in version control. .gitignore lets you exclude files like logs, build outputs, temp files, and private data.
+
+Examples:
+ * PRIVATE.txt — ignore a specific file
+ * build/ — ignore a directory
+ * *.exe — ignore all executables
+ * !output.exe — exception to a rule
+
+The textbook reminds that .gitignore itself is tracked, so you must commit it.
+
+History tools:
+ * git log — shows commit history
+ * git show <commit> — shows changes in a specific commit
+ * git diff — shows changes since last commit
+ * git diff --staged — shows staged changes
+
+Reflection: Seeing how Git logs everything made me appreciate how transparent the system is. I can see exactly what changed, when, and why — something I never had before.
+
+
+
+Navigating, Undoing, and Amending Commits (Ch. 5)
+Git allows time travel — safely.
+
+Navigating versions
+ * git checkout <commit> — view an older snapshot
+ * git checkout master — return to the present
+   The textbook warns: never switch commits with unstaged changes.
+
+Undoing commits
+ * git revert <commit> — creates a new commit that reverses the old one
+   This preserves history instead of rewriting it.
+
+Fixing commits
+ * git commit --amend — rewrite the last commit message or include forgotten files
+   This replaces the previous commit with a new one.
+
+Resetting (dangerous)
+ * git reset HEAD <file> — unstage
+ * git reset --soft HEAD~1 — undo last commit but keep changes staged
+
+Reflection: I used to think undoing changes meant deleting work. Git’s approach is smarter — it keeps history intact and adds corrective commits. Amending is great for small mistakes, but the textbook warns not to abuse it. I get why: your commit history should tell the story of your work, not hide it.
+
+Combined Summary — What I’m Taking Forward
+Across these five chapters, Git transformed from a mysterious developer tool into a structured system that makes version tracking predictable and safe. The notebook-style concepts (working directory, staging, commits, logs, ignore rules) give me the technical foundation. The reflective parts help me understand why these features matter.
+
+Git encourages:
+ * Clean, intentional snapshots
+ * Clear commit messages
+ * Organized project history
+ * Safe experimentation
+ * Confidence in undoing mistakes
+
+This journal captures both the technical notes I want to reference later and the personal insights that help me remember why Git works the way it does.
