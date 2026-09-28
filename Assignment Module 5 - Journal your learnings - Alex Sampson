@@ -1,0 +1,84 @@
+Better Project Management: Pull Requests (Ch. 12)
+------------------------------
+Pull Requests (PRs) connect everything we’ve learned so far about branches, issues, and GitHub workflow. The chapter emphasizes that while committing directly to a shared branch might seem faster, it creates long‑term problems — especially in team environments. PRs and code reviews solve these problems by introducing structure, collaboration, and quality control into the development process. Even though we’re working solo in this course, the chapter stresses that the inconveniences of unstructured workflows still exist; they’re just less visible until multiple contributors are involved.
+
+
+Why Use Pull Requests
+----------------
+Developers sometimes complain that PRs slow them down because they require waiting for reviews. The chapter counters this by explaining that branches allow parallel work: you can switch to another issue while waiting for feedback. PRs also let you begin work even when requirements are incomplete, pause for clarification, and resume later. Most importantly, having someone else reread your code dramatically reduces bugs — the time saved by preventing defects outweighs the time spent waiting for review. PRs are also essential in open‑source projects. Without them, anyone could push directly to shared branches, creating chaos. Instead, contributors propose changes through PRs, and maintainers review and discuss them before merging.
+
+
+What a Pull Request Actually Does
+----------------
+A PR is essentially a formal request asking GitHub to perform two actions:
+ * Pull your branch from your fork or remote.
+ * Merge it into the target branch.
+
+The chapter clarifies that “pull” is simply the inverse of “push”:
+ * push copies commits from local → remote
+ * pull copies commits from remote → local
+
+A PR automates this process for upstream branches, adding a layer of civility and safety. You can merge anything locally, but merging into shared branches requires permission.
+
+
+Creating a Pull Request
+-----------------
+The chapter walks through a full example:
+ * Create an issue (“Improve the app style”).
+ * Create a new branch from develop:
+  ~~~~~
+  git checkout develop
+  git branch improve-app-style
+  git checkout improve-app-style
+  ~~~~~
+ * Make changes to index.html.
+ * Commit with a simple message (“Add basic color changes on item rows”).
+ * Push the branch:
+  ~~~~~
+  git push origin improve-app-style
+  ~~~~~
+ * GitHub displays a banner prompting you to open a PR.
+ * On the PR creation page, choose the correct base branch (switch from master to develop).
+ * Add a clear PR name and description, including issue‑closing keywords.
+
+The chapter emphasizes that PR names should answer:
+“What will this PR do if merged?”  
+Clear naming helps reviewers understand intent without reading the code.
+
+
+Code Reviews
+-----------------
+The chapter highlights GitHub’s code review system as one of its strongest features. Instead of meetings or long email chains, reviewers can inspect diffs directly in the PR. Key review actions include:
+ * Opening the Files changed tab
+ * Commenting on specific lines using the “+” icon
+ * Starting a review
+ * Leaving general comments, approvals, or change requests
+
+The example review suggests adding user-select: none for better UX. After comments are submitted, the developer updates the PR by committing new changes and pushing again. GitHub automatically updates the PR and shows only the new diffs, making incremental review easier.
+
+
+Updating and Merging a Pull Request
+----------------
+After addressing review comments:
+ * Update the code.
+ * Commit (“Make the list items unselectable”).
+ * Push again.
+ * Reviewer checks the new changes.
+ * Reviewer leaves a final comment (“Good job!”).
+ * The PR is merged using the green button.
+
+The chapter notes that issues only auto‑close when merged into the default branch (master). Since the example merges into develop, the issue remains open until develop is merged into master.
+
+
+Exercise: Merging Develop Into Master
+-----------------
+To simulate a release after testing, the chapter instructs:
+ * Open a PR from develop → master
+ * Merge it
+
+This reinforces the idea that PRs are the gateway for all changes entering production‑level branches.
+
+
+Reflection
+-----------------
+This chapter finally made PRs feel like more than just a GitHub button — they’re the backbone of collaborative development. What stood out most is how PRs combine technical safety with social structure: they prevent accidental breakage, encourage discussion, and create a clear history of decisions. Even though I’m working solo right now, I can see how PRs prevent chaos long before multiple contributors join a project. The walkthrough also helped me appreciate how GitHub automates the tedious parts of collaboration. Seeing how reviews, comments, incremental diffs, and merge confirmations all fit together made the workflow feel intuitive rather than bureaucratic. The chapter’s emphasis on naming, descriptions, and communication also reinforced that PRs aren’t just about code — they’re about clarity. Overall, Chapter 12 made me feel more confident about using PRs in real projects. It connected branching, issues, commits, and reviews into one cohesive workflow, and it showed why professional teams rely on PRs as the default way to introduce changes.
