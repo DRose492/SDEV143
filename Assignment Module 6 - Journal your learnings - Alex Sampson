@@ -1,0 +1,124 @@
+Conflicts (Ch. 13)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Understanding How Merges Work
+~~~~~~~~~~~~~~~~~
+Chapter 13 focuses on one of the most important realities of collaborative development: merge conflicts. The chapter begins by reviewing how merges work and why conflicts occur. A merge takes commits from one branch and applies them to another branch. Most of the time this process works automatically, but problems arise when multiple developers modify the same area of a file. The author emphasizes that Git is a distributed version control system, meaning every contributor has a complete copy of the repository. Since there are no file locks, multiple people can edit the same file at the same time. When those changes eventually come together, Git may need assistance deciding which modifications should be kept. The chapter also reinforces an important workflow rule: only merge branches when the work is complete. Merging unfinished work defeats the purpose of using branches to organize development.
+
+Pulling Changes from a Remote Repository
+~~~~~~~~~~~~~~~~~
+The chapter revisits the pull command and explains how Git synchronizes local and remote repositories.
+  ~~~
+  git pull origin master
+  ~~~
+One concept that stood out is that a pull operation is actually two actions combined:
+ * Fetching commits from the remote repository.
+ * Merging those commits into the local branch.
+The chapter introduces the temporary reference called FETCH_HEAD, which stores the fetched branch before the merge occurs. Learning this helped me better understand what Git is doing behind the scenes whenever I run a pull command.
+
+Fast-Forward Merges
+~~~~~~~~~~~~~~~~~
+When the local and remote branches share a straightforward history, Git performs a fast-forward merge. In a fast-forward scenario, Git does not need to create a merge commit. Instead, it simply moves the branch pointer forward to the newest commit. The chapter explains that fast-forward merges are ideal because they keep the project history clean and organized. Since Git only needs to move a reference pointer, the operation is very efficient. The author repeatedly emphasizes that developers should strive for fast-forward merges whenever possible because they produce the simplest history logs.
+
+Using Git History Graphs
+~~~~~~~~~~~~~~~~~
+Another useful topic covered in the chapter is visualizing project history.
+  ~~~
+  git log --oneline --graph
+  ~~~
+Adding the --graph option displays a visual representation of branches and merges. Instead of seeing commits as a simple list, developers can view how branches diverged from each other and later merged together. The examples make it easier to understand the relationships between master, develop, and feature branches. As projects become larger, graphical logs become valuable tools for understanding project history.
+
+Creating and Understanding Merge Conflicts
+~~~~~~~~~~~~~~~~~
+To demonstrate conflicts, the chapter intentionally creates a situation where local changes and remote changes affect the same section of an HTML file. When attempting to pull the remote branch:
+  ~~~
+  git pull origin develop
+  ~~~
+Git reports a conflict and places the repository into a merging state rather than completing the merge automatically. The chapter explains that conflicts occur because Git cannot safely decide which version should be preserved. Instead of risking data loss, Git asks the developer to make the decision manually. This reinforced the idea that conflicts are a safety feature rather than a software problem.
+
+Reading Conflict Markers
+~~~~~~~~~~~~~~~~~
+One of the most practical lessons in the chapter is learning how Git marks conflicting code inside a file.
+  ~~~
+  <<<<<<< HEAD
+  Local changes
+  =======
+  Incoming changes
+  >>>>>>> commit-id
+  ~~~
+The section above the separator contains the local changes, while the section below contains incoming changes from the branch being merged. The chapter demonstrates how these markers appear in different editors and explains how developers can compare both versions before deciding what to keep. Understanding these markers made merge conflicts seem much less intimidating. 
+
+Resolving Merge Conflicts
+~~~~~~~~~~~~~~~~~~
+Once the conflict has been identified, the developer must manually edit the file. The chapter explains that resolving a conflict does not necessarily mean choosing a single version. Developers can:
+ * Keep the local changes.
+ * Keep the incoming changes.
+ * Combine portions of both.
+After editing the file and removing the conflict markers, the merge process continues using:
+  ~~~
+  git add index.html
+  git commit
+  ~~~
+Git then creates a merge commit and returns the repository to its normal state.
+
+Reflection
+~~~~~~~~~~~~~~~~~~~
+This chapter helped me understand what is actually happening when Git reports a merge conflict. Before reading the chapter, I viewed conflicts as errors that interrupted the development process. The examples showed that conflicts are really Git's way of protecting changes from being accidentally overwritten. The most useful takeaway was learning how to read conflict markers and identify the differences between local and incoming changes. I also found the explanation of pull operations interesting because I had not realized that pulling is really a combination of fetching and merging. Understanding the purpose of FETCH_HEAD and merge commits made Git's behavior much clearer. Overall, Chapter 13 transformed merge conflicts from something intimidating into a normal part of collaborative development. While conflicts may still be inconvenient, I now understand the process required to resolve them and continue working successfully.
+
+
+
+More About Conflicts (Ch. 14)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pushing After Conflict Resolution
+~~~~~~~~~~~~~~~~~~~
+Chapter 14 continues the discussion on merge conflicts by focusing on what happens after a conflict has been resolved. After fixing the conflict and committing the results locally, the branch can be pushed as usual:
+  ~~~
+  git push origin develop
+  ~~~
+The chapter explains that because the conflict has already been resolved locally, the push process typically proceeds without any special complications. A helpful concept introduced is that pushing and pulling are essentially the same operation occurring in opposite directions. Pulling brings remote commits into the local repository, while pushing sends local commits to the remote repository.
+
+Reviewing Changes Before Merging
+~~~~~~~~~~~~~~~~~~~
+One of the strongest recommendations in Chapter 14 is to carefully review changes before performing a merge. To compare branches, Git provides:
+  ~~~
+  git diff master..develop
+  ~~~
+This command allows developers to inspect all differences between two branches before combining them. The chapter stresses that spending a few minutes reviewing changes can prevent significant problems later. This includes spotting unwanted modifications, formatting differences, or potential conflicts before they become difficult to manage.
+
+Understanding Different Types of Merges
+~~~~~~~~~~~~~~~~~~~
+The chapter revisits merge concepts and clarifies the distinction between fast-forward merges and true merges. A fast-forward merge occurs when the parent branch has not received additional commits since the feature branch was created. Git simply moves the branch reference forward. A true merge, often called a three-way merge, occurs when both branches have evolved separately. Git creates a merge commit containing the combined work of both branches. This explanation helped connect many topics introduced throughout earlier chapters and clarified why some merges generate merge commits while others do not.
+
+Reducing Merge Conflicts
+~~~~~~~~~~~~~~~~~~~
+The largest focus of Chapter 14 is conflict prevention. The author explains that while conflicts cannot be eliminated entirely, developers can greatly reduce them through good workflow practices. Recommended strategies include:
+ * Avoid committing directly to master or develop.
+ * Create feature branches for every task.
+ * Use Pull Requests for all significant changes.
+ * Limit Pull Requests to a single issue or feature.
+ * Maintain consistent project formatting standards.
+The chapter argues that many merge conflicts are caused by workflow problems rather than by Git itself.
+
+Formatting and Line Ending Issues
+~~~~~~~~~~~~~~~~~~~
+One point that stood out was the discussion about formatting differences. Developers working on different operating systems often use different line endings and formatting conventions. Even when code functions identically, these differences can create unnecessary conflicts. The chapter emphasizes that teams should establish consistent standards for:
+ * Line endings
+ * Indentation
+ * Spacing
+ * Code formatting
+Following agreed-upon standards helps reduce avoidable conflicts and makes collaboration much smoother.
+
+Aborting a Merge
+~~~~~~~~~~~~~~~~~~~
+The chapter introduces a useful command for situations where a merge becomes difficult to manage:
+  ~~~
+  git merge --abort
+  ~~~
+This command cancels the current merge operation and returns the repository to its previous state. The author notes that many conflicts are caused by formatting problems or changes that should be handled differently. In these situations, aborting the merge can be a better option than continuing to work through unnecessary conflicts.
+
+Using Visual Git Tools
+~~~~~~~~~~~~~~~~~~~
+The chapter concludes by discussing the benefits of visual Git tools and IDE integrations. While conflicts can be resolved using basic text editors, modern tools such as Visual Studio Code provide visual conflict resolution features that simplify the process significantly. These tools highlight conflicting sections, provide side-by-side comparisons, and help developers make decisions more efficiently. The discussion serves as a transition into future chapters focused on Git graphical interfaces.
+
+Reflection
+~~~~~~~~~~~~~~~~~~~
+Chapter 14 helped shift my perspective from resolving conflicts to preventing them. While Chapter 13 taught me how to handle conflicts when they occur, this chapter focused on building workflows that minimize their frequency. The most valuable lesson was learning that many conflicts are caused by organizational issues such as large pull requests, inconsistent formatting, or long-running branches. The recommendations to use focused feature branches and review changes before merging seem like simple habits, but they can save a significant amount of time in collaborative environments. I also appreciated learning about branch comparisons using git diff master..develop because it provides a straightforward way to inspect proposed changes before performing a merge. Combined with the ability to abort a merge when necessary, these tools make conflict management feel much more controlled. Overall, Chapter 14 reinforced the importance of good Git workflow practices. It demonstrated that while merge conflicts are unavoidable, their frequency and complexity can be greatly reduced through planning, communication, and consistent development habits.
