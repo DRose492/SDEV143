@@ -1,0 +1,53 @@
+Scenario 1: Keep Only "- Sleep"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Edit the file in the following ways:
+ * Remove the conflict markers and the incoming change:
+  ~~~
+  - Eat
+  - Read
+  - Sleep
+  ~~~
+ * Then run the git commands
+  ~~~
+  git add activities.txt
+  git commit -m "Resolved merge conflict by keeping Sleep"
+  ~~~
+Outcome
+ * The local change (- Sleep) is preserved, and the incoming change (- Gym) is discarded.
+
+
+Scenario 2: Keep Only "- Gym"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Edit the file in the following ways:
+ * Remove the conflict markers and the local change:
+  ~~~
+  - Eat
+  - Read
+  - Gym
+  ~~~
+ * Then run the git commands
+  ~~~
+  git add activities.txt
+  git commit -m "Resolved merge conflict by keeping Gym"
+  ~~~
+Outcome
+ * The incoming remote change (- Gym) is preserved, and the local change (- Sleep) is discarded.
+
+
+Scenario 3: Keep Both "- Sleep" and "- Gym"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Edit the file in the following ways:
+ * Remove the conflict markers and keep both entries:
+  ~~~
+  - Eat
+  - Read
+  - Sleep
+  - Gym
+  ~~~
+ * Then run the git commands
+  ~~~
+  git add activities.txt
+  git commit -m "Resolved merge conflict by keeping Sleep and Gym"
+  ~~~
+Outcome
+ * Both changes are preserved and included in the merged file.
